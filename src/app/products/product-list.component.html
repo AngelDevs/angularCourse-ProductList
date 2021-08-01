@@ -1,0 +1,75 @@
+<div>
+  <div class="p-4">
+    <span>{{ pageTitle }}</span>
+  </div>
+  <div class="p-4 border-opacity-80 border">
+    <div class="grid grid-cols-2">
+      <div>Filter by:</div>
+      <div>
+        <input
+          class="border border-black"
+          type="text"
+          [(ngModel)]="filterValue"
+        />
+      </div>
+    </div>
+    <div class="grid">
+      <h4><span class="text-xl font-bold">Filtered by: </span></h4>
+    </div>
+    <div>
+      <table class="w-full border-t border-b" *ngIf="products.length > 1">
+        <thead>
+          <tr class="text-left">
+            <th class="p-2">
+              <button
+                (click)="toggleImageVisibility()"
+                class="
+                  h-12
+                  w-32
+                  rounded
+                  text-white
+                  border-2 border-transparent
+                  focus:border-blue-300
+                  hover:bg-blue-700
+                  bg-blue-500
+                "
+              >
+                {{ showImage ? "Hide" : "Show" }} Image
+              </button>
+            </th>
+            <th>Product</th>
+            <th>Code</th>
+            <th>Available</th>
+            <th>Price</th>
+            <th>5 Star Rating</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of filteredProducts">
+            <td class="w-14 h-14">
+              <img
+                *ngIf="showImage"
+                class="h-full"
+                [src]="product.imageUrl"
+                [alt]="product.productName"
+                [title]="product.productName"
+              />
+            </td>
+            <td>{{ product.productName }}</td>
+            <td>
+              {{ product.productCode | lowercase | convertToSpaces: "-" }}
+            </td>
+            <td>{{ product.releaseDate }}</td>
+            <td>{{ product.price | currency: "DOP":"symbol":"1.2-2" }}</td>
+            <td>
+              <stars
+                [rating]="product.starRating"
+                (ratingNotifier)="onRatingClicked($event)"
+              ></stars>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
